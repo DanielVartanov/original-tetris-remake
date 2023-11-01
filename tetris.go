@@ -2,6 +2,8 @@ package main
 
 import (
 	"os"
+	"os/signal"
+	"syscall"
 
 	"golang.org/x/term"
 )
@@ -72,6 +74,9 @@ func resetCursor() {
 }
 
 func main() {
+	sig := make (chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGTERM)
+
 	saved := enableRawMode()
 	defer disableRawMode(saved)
 
@@ -80,8 +85,18 @@ func main() {
 
 	clearScreen()
 
-	for {
-		resetCursor()
-		printPlayingField()
-	}
+	mainloop:
+		for {
+			select {
+			case <-sig:
+				break mainloop
+			default:
+
+			}
+
+			resetCursor()
+			printPlayingField()
+		}
+
+	clearScreen()
 }
