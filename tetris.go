@@ -73,6 +73,27 @@ func resetCursor() {
 	print("\x1b[H")
 }
 
+func keystrokes() <-chan byte {
+	keys := make(chan byte)
+
+	go func() {
+		buf := make([]byte, 1)
+		for {
+			n, err := syscall.Read(int(os.Stdin.Fd()), buf)
+			if err != nil {
+				print("Error reading from stdin:", err)
+				os.Exit(1)
+			}
+
+			if n > 0 {
+				keys <- buf[0]
+			}
+		}
+	}()
+
+	return keys
+}
+
 func main() {
 	sig := make (chan os.Signal, 1)
 	signal.Notify(sig, os.Interrupt, syscall.SIGTERM)
@@ -83,6 +104,8 @@ func main() {
 	hideCursor()
 	defer showCursor()
 
+	keys := keystrokes()
+
 	clearScreen()
 
 	mainloop:
@@ -90,6 +113,13 @@ func main() {
 			select {
 			case <-sig:
 				break mainloop
+			case key := <-keys:
+				switch key{
+				case 0x03: // Ctrl+C
+					break mainloop
+				case 'q':
+					break mainloop
+				}
 			default:
 
 			}

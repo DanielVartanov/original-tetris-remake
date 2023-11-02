@@ -13,22 +13,25 @@
 
 [V] Listen to SIGINT in the loop, exit on SIGINT and SIGTERM
 
-[.] Listen to keyboard, exit on C-c, q
+[V] Listen to keyboard, exit on C-c and q
 
-- Visible objects:
+[.] Visible objects:
   - Occupied & free cells
   [V] Playing field boundaries
   - Figures
+
 - Rendering all of the visible objects ^^^
   - Draw them just being static, simply place then somehow and make it
     render, that's it!
 
-- Movement logic:
-  - Simple: down upon timer events
-  - Simple: left and right upon user's input
-  - Rotation
-    - Perhaps each figure shall have its own rules of rotation:
-      compare a T to a square, for instance
+- Core game functions
+  - The model and the tests
+  - Movement logic:
+    - Simple: down upon timer events
+    - Simple: left and right upon user's input
+    - Rotation
+      - Perhaps each figure shall have its own rules of rotation:
+        compare a T to a square, for instance
 
 - Final similarities to the original
   - Read screen size on init, draw from the middle
