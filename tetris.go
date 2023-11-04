@@ -8,33 +8,106 @@ import (
 	"golang.org/x/term"
 )
 
+
+// Game
+
+type piece [4][4]rune
+
+var thePiece = piece{
+	{' ',' ',' ',' '},
+	{' ','■','■',' '},
+	{' ','■','■',' '},
+	{' ',' ',' ',' '},
+}
+
+var field [20][10]bool
+
+type coords [2]int
+
+var pieceLoc coords
+
+func isFilledAt(pt coords) bool {
+	return field[pt[0]][pt[1]]
+}
+
+func isPieceAt(pt coords) bool {
+	if (pt[0] < pieceLoc[0] || pt[0] - pieceLoc[0] >=4 ||
+            pt[1] < pieceLoc[1] || pt[1] - pieceLoc[1] >=4) {
+
+		    return false
+	    }
+
+	return thePiece[pt[0] - pieceLoc[0]][pt[1] - pieceLoc[1]] == '■'
+}
+
+func isOccupiedAt(pt coords) bool {
+	return isFilledAt(pt) || isPieceAt(pt)
+}
+
+func initGame() {
+	pieceLoc = coords{2, 3}
+}
+
+
+// Graphics
+
 type glyph string
 
 const (
 	empty         glyph = " ."
+	occupied      glyph = "[]"
 	leftBoundary  glyph = "<!"
 	rightBoundary glyph = "!>"
-	bottom              = "=="
+	bottom        glyph = "=="
 	foundation    glyph = "\\/"
 	space         glyph = "  "
 )
 
-func printLine(left glyph, central glyph, right glyph) {
-	print(left)
-	for col := 1; col <= 10; col++ {
-		print(central)
-	}
-	print(right)
-	print("\n\r")
+var screen string
+
+func clear() {
+	screen = ""
 }
 
-func printPlayingField() {
-	for row := 1; row <= 20; row++ {
-		printLine(leftBoundary, empty, rightBoundary)
+func draw(gl glyph) {
+	screen += string(gl)
+}
+
+func printLine(left glyph, central glyph, right glyph) {
+	draw(left)
+	for col := 1; col <= 10; col++ {
+		draw(central)
+	}
+	draw(right)
+	draw("\n\r")
+}
+
+func buildFrame() {
+	for row := 0; row < 20; row++ {
+		draw(leftBoundary)
+		for col := 0; col < 10; col++ {
+			if isOccupiedAt(coords{row, col}) {
+				draw(occupied)
+			} else {
+				draw(empty)
+			}
+
+		}
+		draw(rightBoundary)
+		draw("\n\r")
 	}
 	printLine(leftBoundary, bottom, rightBoundary)
 	printLine(space, foundation, space)
 }
+
+func printPlayingField() {
+	clear()
+	buildFrame()
+	print(screen)
+}
+
+
+// Initialisation
 
 func hideCursor() {
 	print("\x1b[?25l")
@@ -65,7 +138,7 @@ func disableRawMode(oldstate *term.State) {
 	}
 }
 
-func clearScreen() {
+func clearTerminal() {
 	print("\x1b[2J")
 }
 
@@ -106,7 +179,9 @@ func main() {
 
 	keys := keystrokes()
 
-	clearScreen()
+	clearTerminal()
+
+	initGame()
 
 	mainloop:
 		for {
@@ -128,5 +203,5 @@ func main() {
 			printPlayingField()
 		}
 
-	clearScreen()
+	clearTerminal()
 }

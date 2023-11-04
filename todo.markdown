@@ -15,17 +15,56 @@
 
 [V] Listen to keyboard, exit on C-c and q
 
-[.] Visible objects:
-  - Occupied & free cells
+[V] Visible objects:
   [V] Playing field boundaries
-  - Figures
+  [V] One sample figure (not moving or anything, just getting displayed
+      at given coordinates)
 
-- Rendering all of the visible objects ^^^
-  - Draw them just being static, simply place then somehow and make it
-    render, that's it!
+- Extract the model (to `tetris-core`, maybe? We'll figure out later)
+  - Read about objects and "classes" in Go
+
+- Testing framework
+  - Write simplest test over the model
+  ```
+     // var actions = []func(){
+     // 	func() { /*game.progress()*/ },
+     // 	func() { /*game.progress()*/ },
+     // 	func() { /*piece.turn(-1)*/ },
+     // 	func() { /*game.progress()*/ },
+     // }
+
+     // var expectedStages = [][]string{
+     // 	{"  xx  ",   "      ",   "      "},
+     // 	{"  xx  ",   "  xx  ",   "      "},
+     // 	{"      ",   "  xx  ",   "  xx  "},
+     // 	{"      ",   "      ",   "  xx  "},
+     // 	{"      ",   "      ",   "      "},
+     // }
+
+     // var expectedStages = [][][]string{
+     // 	{{"  xx  "},   {"      "},   {"      "}},
+     // 	{{"  xx  "},   {"  xx  "},   {"      "}},
+     // 	{{"      "},   {"  xx  "},   {"  xx  "}},
+     // 	{{"      "},   {"      "},   {"  xx  "}},
+     // 	{{"      "},   {"      "},   {"      "}},
+     // }
+  ```
+
+  - Test over the graphics
+    - Make the graphics output a string of a size of the playing field
+      - A var/class of `screen` that simply contains a 2D array of
+        runes which then gets printed
+    - Simply compare the string full of glyphs to the expected one,
+      like this:
+      ```
+        <! . . . . . . . . . .!>
+        <! . . . . . . . . . .!>
+        <!====================!>
+          \/\/\/\/\/\/\/\/\/\/
+      ```
 
 - Core game functions
-  - The model and the tests
+  - All types of pieces
   - Movement logic:
     - Simple: down upon timer events
     - Simple: left and right upon user's input
@@ -35,6 +74,7 @@
 
 - Final similarities to the original
   - Read screen size on init, draw from the middle
+    - Make the graphics output a string of a size of the terminal
   - Next figure
   - Score calcs
   - Levels & speeding up
