@@ -22,22 +22,25 @@ var thePiece = piece{
 
 var field [20][10]bool
 
-type coords [2]int
+type coords struct {
+	row int
+	col int
+}
 
 var pieceLoc coords
 
 func isFilledAt(pt coords) bool {
-	return field[pt[0]][pt[1]]
+	return field[pt.row][pt.col]
 }
 
 func isPieceAt(pt coords) bool {
-	if (pt[0] < pieceLoc[0] || pt[0] - pieceLoc[0] >=4 ||
-            pt[1] < pieceLoc[1] || pt[1] - pieceLoc[1] >=4) {
+	if (pt.row < pieceLoc.row || pt.row - pieceLoc.row >=4 ||
+            pt.col < pieceLoc.col || pt.col - pieceLoc.col >=4) {
 
 		    return false
 	    }
 
-	return thePiece[pt[0] - pieceLoc[0]][pt[1] - pieceLoc[1]] == '■'
+	return thePiece[pt.row - pieceLoc.row][pt.col - pieceLoc.col] == '■'
 }
 
 func isOccupiedAt(pt coords) bool {
