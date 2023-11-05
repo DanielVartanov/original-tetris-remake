@@ -1,41 +1,48 @@
 package main
 
-type piece [4][4]rune
-
-var thePiece = piece{
-	{' ',' ',' ',' '},
-	{' ','■','■',' '},
-	{' ','■','■',' '},
-	{' ',' ',' ',' '},
+type Coords struct {
+	Row int
+	Col int
 }
 
-var field [20][10]bool
+type Tetris struct {
+	Height int
+	Width  int
 
-type coords struct {
-	row int
-	col int
+	field    [][]bool
+	pieceLoc Coords
 }
 
-var pieceLoc coords
+func NewTetris(height int, width int) Tetris {
+	field := make([][]bool, height)
+	for row := 0; row < height; row++ {
+		field[row] = make([]bool, width)
+	}
 
-func isFilledAt(pt coords) bool {
-	return field[pt.row][pt.col]
+	return Tetris{
+		Height: height,
+		Width: width,
+
+		field: field,
+		pieceLoc: Coords{2, 3},
+	}
 }
 
-func isPieceAt(pt coords) bool {
-	if (pt.row < pieceLoc.row || pt.row - pieceLoc.row >=4 ||
-            pt.col < pieceLoc.col || pt.col - pieceLoc.col >=4) {
-
-		    return false
-	    }
-
-	return thePiece[pt.row - pieceLoc.row][pt.col - pieceLoc.col] == '■'
+func (t Tetris) IsOccupiedAt(pt Coords) bool {
+	return t.isFilledAt(pt) || t.isPieceAt(pt)
 }
 
-func isOccupiedAt(pt coords) bool {
-	return isFilledAt(pt) || isPieceAt(pt)
+
+func (t Tetris) isFilledAt(pt Coords) bool {
+	return t.field[pt.Row][pt.Col]
 }
 
-func initGame() {
-	pieceLoc = coords{2, 3}
+func (t Tetris) isPieceAt(pt Coords) bool {
+	if pt.Row < t.pieceLoc.Row || pt.Row - t.pieceLoc.Row >= PieceSize ||
+	   pt.Col < t.pieceLoc.Col || pt.Col - t.pieceLoc.Col >= PieceSize {
+
+		return false
+	}
+
+	return ThePiece[pt.Row - t.pieceLoc.Row][pt.Col - t.pieceLoc.Col] == '■'
 }

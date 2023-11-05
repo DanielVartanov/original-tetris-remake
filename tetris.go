@@ -8,7 +8,44 @@ import (
 	"golang.org/x/term"
 )
 
-// Initialisation
+func main() {
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGTERM)
+
+	saved := enableRawMode()
+	defer disableRawMode(saved)
+
+	hideCursor()
+	defer showCursor()
+
+	keys := keystrokes()
+
+	clearTerminal()
+
+	tetris := NewTetris(20, 10)
+
+mainloop:
+	for {
+		select {
+		case <-sig:
+			break mainloop
+		case key := <-keys:
+			switch key {
+			case 0x03: // Ctrl+C
+				break mainloop
+			case 'q':
+				break mainloop
+			}
+		default:
+
+		}
+
+		resetCursor()
+		drawTetris(tetris)
+	}
+
+	clearTerminal()
+}
 
 func hideCursor() {
 	print("\x1b[?25l")
@@ -66,43 +103,4 @@ func keystrokes() <-chan byte {
 	}()
 
 	return keys
-}
-
-func main() {
-	sig := make (chan os.Signal, 1)
-	signal.Notify(sig, os.Interrupt, syscall.SIGTERM)
-
-	saved := enableRawMode()
-	defer disableRawMode(saved)
-
-	hideCursor()
-	defer showCursor()
-
-	keys := keystrokes()
-
-	clearTerminal()
-
-	initGame()
-
-	mainloop:
-		for {
-			select {
-			case <-sig:
-				break mainloop
-			case key := <-keys:
-				switch key{
-				case 0x03: // Ctrl+C
-					break mainloop
-				case 'q':
-					break mainloop
-				}
-			default:
-
-			}
-
-			resetCursor()
-			printPlayingField()
-		}
-
-	clearTerminal()
 }

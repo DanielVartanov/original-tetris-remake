@@ -31,11 +31,11 @@ func printLine(left glyph, central glyph, right glyph) {
 	draw("\n\r")
 }
 
-func buildFrame() {
-	for row := 0; row < 20; row++ {
+func buildFrame(tetris Tetris) {
+	for row := 0; row < tetris.Height; row++ {
 		draw(leftBoundary)
-		for col := 0; col < 10; col++ {
-			if isOccupiedAt(coords{row, col}) {
+		for col := 0; col < tetris.Width; col++ {
+			if tetris.IsOccupiedAt(Coords{row, col}) {
 				draw(occupied)
 			} else {
 				draw(empty)
@@ -49,8 +49,8 @@ func buildFrame() {
 	printLine(space, foundation, space)
 }
 
-func printPlayingField() {
+func drawTetris(tetris Tetris) {
 	clear()
-	buildFrame()
+	buildFrame(tetris)
 	print(screen)
 }
