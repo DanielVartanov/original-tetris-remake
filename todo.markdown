@@ -20,9 +20,9 @@
   [V] One sample figure (not moving or anything, just getting displayed
       at given coordinates)
 
-[.] Extract the model
+[V] Extract the model
   [V] Convert global var based logic into struct and its methods
-  [.] Convert pieces into a map instead of a set of vars?
+  [V] Convert pieces into a map instead of a set of vars
 
 - Testing framework
   - Write simplest test over the model

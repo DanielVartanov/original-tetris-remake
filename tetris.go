@@ -23,6 +23,8 @@ func main() {
 	clearTerminal()
 
 	tetris := NewTetris(20, 10)
+	newPiece := Pieces['J']
+	tetris.AddPiece(&newPiece)
 
 mainloop:
 	for {
