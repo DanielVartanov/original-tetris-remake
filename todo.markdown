@@ -24,8 +24,13 @@
   [V] Convert global var based logic into struct and its methods
   [V] Convert pieces into a map instead of a set of vars
 
-- Testing framework
-  - Write simplest test over the model
+[V] Testing framework
+  [V] Write a test helper function that takes a string snapshot of
+      `Tetris`'s current state
+  [V] Write simplest test over the model
+  [V] Make the test function print expected and got horizontally line
+      by line
+  [.] Implement progression tests, like these:
   ```
      // var actions = []func(){
      // 	func() { /*game.progress()*/ },
@@ -50,6 +55,7 @@
      // 	{{"      "},   {"      "},   {"      "}},
      // }
   ```
+    - Write all actual tests for the core mechanics of Tetris
 
   - Test over the graphics
     - Make the graphics output a string of a size of the playing field

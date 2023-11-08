@@ -28,29 +28,29 @@ func NewTetris(height int, width int) Tetris {
 	}
 }
 
-func (t *Tetris) AddPiece(p *Piece) {
-	t.piece = p
-	t.piecePos = Coords{2, 3}
+func (ts *Tetris) AddPiece(p *Piece) {
+	ts.piece = p
+	ts.piecePos = Coords{0, (ts.Width - PieceSize) / 2}
 }
 
-func (t Tetris) IsOccupiedAt(pt Coords) bool {
-	return t.isFilledAt(pt) || t.isPieceAt(pt)
+func (ts Tetris) IsOccupiedAt(pt Coords) bool {
+	return ts.isFilledAt(pt) || ts.isPieceAt(pt)
 }
 
-func (t Tetris) isFilledAt(pt Coords) bool {
-	return t.field[pt.Row][pt.Col]
+func (ts Tetris) isFilledAt(pt Coords) bool {
+	return ts.field[pt.Row][pt.Col]
 }
 
-func (t Tetris) isPieceAt(pt Coords) bool {
-	if t.piece == nil {
+func (ts Tetris) isPieceAt(pt Coords) bool {
+	if ts.piece == nil {
 		return false
 	}
 
-	if pt.Row < t.piecePos.Row || pt.Row - t.piecePos.Row >= PieceSize ||
-	   pt.Col < t.piecePos.Col || pt.Col - t.piecePos.Col >= PieceSize {
+	if pt.Row < ts.piecePos.Row || pt.Row - ts.piecePos.Row >= PieceSize ||
+	   pt.Col < ts.piecePos.Col || pt.Col - ts.piecePos.Col >= PieceSize {
 
 		return false
 	}
 
-	return t.piece[pt.Row - t.piecePos.Row][pt.Col - t.piecePos.Col] == '■'
+	return ts.piece[pt.Row - ts.piecePos.Row][pt.Col - ts.piecePos.Col] == '■'
 }
