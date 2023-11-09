@@ -4,6 +4,7 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"math/rand"
 
 	"golang.org/x/term"
 )
@@ -23,8 +24,8 @@ func main() {
 	clearTerminal()
 
 	tetris := NewTetris(20, 10)
-	newPiece := Pieces['J']
-	tetris.AddPiece(&newPiece)
+	randomPiece := Pieces[PieceNames[rand.Intn(len(PieceNames))]]
+	tetris.AddPiece(&randomPiece)
 
 mainloop:
 	for {

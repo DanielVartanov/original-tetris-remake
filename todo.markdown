@@ -36,8 +36,7 @@
 
 [.] Glue it back to great looks
   [V] Make graphics dark green
-  - Make `main()` add a _random_ piece in the beginning (even
-    without introducing Game struct yet)
+  [V] Make `main()` add a _random_ piece in the beginning
   - Make it centered (assume hardcoded terminal size for now)
     - A var/class of `screen` that simply contains a 2D array of
       runes which then gets printed

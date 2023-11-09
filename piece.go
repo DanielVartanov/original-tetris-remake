@@ -4,6 +4,8 @@ const PieceSize = 4
 
 type Piece [PieceSize][PieceSize]rune
 
+var PieceNames = []rune{'O', 'S', 'Z', 'T', 'L', 'J', 'I'}
+
 var Pieces = map[rune]Piece{
 	'O': {
 		{' ', ' ', ' ', ' '},
