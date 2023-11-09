@@ -35,7 +35,7 @@
 [V] Implement steps/progressions, even without checking for the field boundaries
 
 [.] Glue it back to great looks
-  - Make graphics dark grey
+  [V] Make graphics dark green
   - Make `main()` add a _random_ piece in the beginning (even
     without introducing Game struct yet)
   - Make it centered (assume hardcoded terminal size for now)

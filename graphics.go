@@ -52,5 +52,5 @@ func buildFrame(tetris Tetris) {
 func drawTetris(tetris Tetris) {
 	clear()
 	buildFrame(tetris)
-	print(screen)
+	print("\n\r\x1b[32m" + screen + "\x1b[0m")
 }
