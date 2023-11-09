@@ -30,59 +30,42 @@
   [V] Write simplest test over the model
   [V] Make the test function print expected and got horizontally line
       by line
-  [.] Implement progression tests, like these:
-  ```
-     // var actions = []func(){
-     // 	func() { /*game.progress()*/ },
-     // 	func() { /*game.progress()*/ },
-     // 	func() { /*piece.turn(-1)*/ },
-     // 	func() { /*game.progress()*/ },
-     // }
+  [V] Amend testing framework with progression tests
 
-     // var expectedStages = [][]string{
-     // 	{"  xx  ",   "      ",   "      "},
-     // 	{"  xx  ",   "  xx  ",   "      "},
-     // 	{"      ",   "  xx  ",   "  xx  "},
-     // 	{"      ",   "      ",   "  xx  "},
-     // 	{"      ",   "      ",   "      "},
-     // }
+[V] Implement steps/progressions, even without checking for the field boundaries
 
-     // var expectedStages = [][][]string{
-     // 	{{"  xx  "},   {"      "},   {"      "}},
-     // 	{{"  xx  "},   {"  xx  "},   {"      "}},
-     // 	{{"      "},   {"  xx  "},   {"  xx  "}},
-     // 	{{"      "},   {"      "},   {"  xx  "}},
-     // 	{{"      "},   {"      "},   {"      "}},
-     // }
-  ```
-    - Write all actual tests for the core mechanics of Tetris
+[.] Glue it back to great looks
+  - Make graphics dark grey
+  - Make `main()` add a _random_ piece in the beginning (even
+    without introducing Game struct yet)
+  - Make it centered (assume hardcoded terminal size for now)
+    - A var/class of `screen` that simply contains a 2D array of
+      runes which then gets printed
+      - (!) Organise viewports as slices over the array of `screen`,
+        those viewports, like a viewport over the playing field or a
+        viewport over the "next figure box" are super convenient,
+        inside those the coordinates always start with (0,0), it's
+        super easy to draw within them, and they are independent of
+        the terminal size, but the overall drawings will always be
+        in the middle of the terminal window or wherever they need
+        to be
 
-  - Test over the graphics
-    - Make the graphics output a string of a size of the playing field
-      - A var/class of `screen` that simply contains a 2D array of
-        runes which then gets printed
-        - (!) Organise viewports as slices over the array of `screen`,
-          those viewports, like a viewport over the playing field or a
-          viewport over the "next figure box" are super convenient,
-          inside those the coordinates always start with (0,0), it's
-          super easy to draw within them, and they are independent of
-          the terminal size, but the overall drawings will always be
-          in the middle of the terminal window or wherever they need
-          to be
-    - Simply compare the string full of glyphs to the expected one,
-      like this:
-      ```
-        <! . . . . . . . . . .!>
-        <! . . . . . . . . . .!>
-        <!====================!>
-          \/\/\/\/\/\/\/\/\/\/
-      ```
+- Test over the graphics
+  - Make the graphics output a string of a size of the playing field
+  - Simply compare the string full of glyphs to the expected one,
+    like this:
+    ```
+      <! . . . . . . . . . .!>
+      <! . . . . . . . . . .!>
+      <!====================!>
+        \/\/\/\/\/\/\/\/\/\/
+    ```
 
-- Core game functions
-  - All types of pieces
+- Core game functions and tests for them
+  [V] All types of pieces
   - Movement logic:
+    - Sideways movement
     - Simple: down upon timer events
-    - Simple: left and right upon user's input
     - Rotation
       - Perhaps each figure shall have its own rules of rotation:
         compare a T to a square, for instance
@@ -113,6 +96,9 @@
   - Get notified on screen size change (zoom and/or re-size) and re-draw
   - Clean-up properly at SIGINT (C-c)
   - Ensure it runs well on Mac and Win
+  - Refactor
+    - Extract testing framework from `core_test.go`, it feel too dirty
+      when dumped in the same file
   - Do a proper peer-review to adhere to modern industry standards
 
 - Consider converting `core.go` and `graphics.go` into packages of

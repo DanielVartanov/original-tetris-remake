@@ -33,8 +33,20 @@ func (ts *Tetris) AddPiece(p *Piece) {
 	ts.piecePos = Coords{0, (ts.Width - PieceSize) / 2}
 }
 
-func (ts Tetris) IsOccupiedAt(pt Coords) bool {
+func (ts *Tetris) IsOccupiedAt(pt Coords) bool {
 	return ts.isFilledAt(pt) || ts.isPieceAt(pt)
+}
+
+func (ts *Tetris) MoveRight() {
+	ts.piecePos.Col += 1
+}
+
+func (ts *Tetris) MoveLeft() {
+	ts.piecePos.Col -= 1
+}
+
+func (ts *Tetris) Progress() {
+	ts.piecePos.Row += 1
 }
 
 func (ts Tetris) isFilledAt(pt Coords) bool {
