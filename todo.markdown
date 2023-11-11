@@ -34,20 +34,12 @@
 
 [V] Implement steps/progressions, even without checking for the field boundaries
 
-[.] Glue it back to great looks
+[.] Glue everything back
   [V] Make graphics dark green
   [V] Make `main()` add a _random_ piece in the beginning
-  - Make it centered (assume hardcoded terminal size for now)
-    - A var/class of `screen` that simply contains a 2D array of
-      runes which then gets printed
-      - (!) Organise viewports as slices over the array of `screen`,
-        those viewports, like a viewport over the playing field or a
-        viewport over the "next figure box" are super convenient,
-        inside those the coordinates always start with (0,0), it's
-        super easy to draw within them, and they are independent of
-        the terminal size, but the overall drawings will always be
-        in the middle of the terminal window or wherever they need
-        to be
+  [V] Make it centered
+  - Make the piece fall (not drop) by timer
+  - Make the game react to `left` and `right` buttons
 
 - Test over the graphics
   - Make the graphics output a string of a size of the playing field
@@ -96,8 +88,11 @@
   - Clean-up properly at SIGINT (C-c)
   - Ensure it runs well on Mac and Win
   - Refactor
+    - `glyph` should be `[2]rune`, not a `string`
     - Extract testing framework from `core_test.go`, it feel too dirty
       when dumped in the same file
+    - Try using beautiful Unicode characters like `𐘀`
+      (string(1000000)) as key runes for pieces
   - Do a proper peer-review to adhere to modern industry standards
 
 - Consider converting `core.go` and `graphics.go` into packages of

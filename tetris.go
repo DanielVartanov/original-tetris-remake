@@ -27,6 +27,8 @@ func main() {
 	randomPiece := Pieces[PieceNames[rand.Intn(len(PieceNames))]]
 	tetris.AddPiece(&randomPiece)
 
+	termH, termW := termSize()
+	screen := NewScreen(termH - 1, termW, &tetris)
 mainloop:
 	for {
 		select {
@@ -43,11 +45,22 @@ mainloop:
 
 		}
 
+		screen.Render()
+
 		resetCursor()
-		drawTetris(tetris)
+		print(screen.Printable())
 	}
 
 	clearTerminal()
+}
+
+func termSize() (height, width int) {
+	width, height, err := term.GetSize(ttyfd())
+	if err != nil {
+		println("Error getting terminal size")
+		os.Exit(1)
+	}
+	return
 }
 
 func hideCursor() {
