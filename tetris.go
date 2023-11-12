@@ -29,6 +29,9 @@ func main() {
 
 	termH, termW := termSize()
 	screen := NewScreen(termH - 1, termW, &tetris)
+
+	field := NewField(&tetris, &screen)
+
 mainloop:
 	for {
 		select {
@@ -45,7 +48,7 @@ mainloop:
 
 		}
 
-		screen.Render()
+		field.Render()
 
 		resetCursor()
 		print(screen.Printable())

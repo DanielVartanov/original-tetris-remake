@@ -12,99 +12,58 @@ const (
 	space         glyph = "  "
 )
 
-type viewport [][]rune
-
-type Screen struct {
-	Height int
-	Width int
-
+type Field struct {
 	tetris *Tetris
-
-	main viewport
-	field viewport
+	canvas viewport
 }
 
-func NewScreen(height, width int, tetris *Tetris) Screen {
-	main := make([][]rune, height)
-	for row := range(main) {
-		main[row] = make([]rune, width)
-		for col := range(main[row]) {
-			main[row][col] = ' '
-		}
-	}
+func NewField(tetris *Tetris, screen *Screen) Field {
+	// `+2` gives the padding for the field boundaries on the sides and at the bottom
+	fldHeight := tetris.Height + 2
+	fldWidth := (tetris.Width + 2) * len(space)
 
-	var field viewport
-	fieldWidth := (tetris.Width + 2) * len(space)
-	fieldHeight := tetris.Height + 2  // `+2` gives the padding for the field boundaries on the sides and at the bottom
-	for row := height / 2 - fieldHeight / 2;
-            row < height / 2 + fieldHeight / 2;
-            row++ {
-		    field = append(field, main[row][width / 2 - fieldWidth / 2 : width / 2 + fieldWidth / 2])
-	    }
+	canvas := screen.allocate(fldHeight, fldWidth, -fldHeight / 2, -fldWidth / 2)
 
-	return Screen{
-		Height: height,
-		Width: width,
-
+	return Field{
 		tetris: tetris,
 
-		main: main,
-		field: field,
+		canvas: canvas,
 	}
 }
 
-func (vp viewport) draw(gl glyph, row int, col int) {
-	vp[row][col] = rune(gl[0])
-	vp[row][col+1] = rune(gl[1])
-}
+func (fld *Field) Render() {
+	fld.renderBox()
 
-func (scr *Screen) renderFieldTile(gl glyph, trow int, tcol int) {
-	scr.field.draw(gl, trow, (tcol + 1) * 2)
-}
-
-func (scr *Screen) renderBox() {
-	for trow := 0; trow < scr.tetris.Height; trow++ {
-		scr.renderFieldTile(leftBoundary, trow, -1)
-		scr.renderFieldTile(rightBoundary, trow, scr.tetris.Width)
-	}
-
-	scr.renderFieldTile(leftBoundary, scr.tetris.Height, -1)
-	scr.renderFieldTile(space, scr.tetris.Height + 1, -1)
-	for tcol := 0; tcol < scr.tetris.Width; tcol++ {
-		scr.renderFieldTile(bottom, scr.tetris.Height, tcol)
-		scr.renderFieldTile(foundation, scr.tetris.Height + 1, tcol)
-	}
-	scr.renderFieldTile(rightBoundary, scr.tetris.Height, scr.tetris.Width)
-	scr.renderFieldTile(space, scr.tetris.Height + 1, scr.tetris.Width)
-}
-
-func (scr *Screen) renderField() {
-	scr.renderBox()
-
-	for trow := 0; trow < scr.tetris.Height; trow++ {
-		for tcol := 0; tcol < scr.tetris.Width; tcol++ {
+	for trow := 0; trow < fld.tetris.Height; trow++ {
+		for tcol := 0; tcol < fld.tetris.Width; tcol++ {
 			var gl glyph
-			if scr.tetris.IsOccupiedAt(Coords{trow, tcol}) {
+			if fld.tetris.IsOccupiedAt(Coords{trow, tcol}) {
 				gl = occupied
 			} else {
 				gl = empty
 			}
 
-			scr.renderFieldTile(gl, trow, tcol)
+			fld.drawTile(gl, trow, tcol)
 		}
 	}
 }
 
-func (scr *Screen) Render() {
-	scr.renderField()
+func (fld *Field) renderBox() {
+	for trow := 0; trow < fld.tetris.Height; trow++ {
+		fld.drawTile(leftBoundary, trow, -1)
+		fld.drawTile(rightBoundary, trow, fld.tetris.Width)
+	}
+
+	fld.drawTile(leftBoundary, fld.tetris.Height, -1)
+	fld.drawTile(space, fld.tetris.Height + 1, -1)
+	for tcol := 0; tcol < fld.tetris.Width; tcol++ {
+		fld.drawTile(bottom, fld.tetris.Height, tcol)
+		fld.drawTile(foundation, fld.tetris.Height + 1, tcol)
+	}
+	fld.drawTile(rightBoundary, fld.tetris.Height, fld.tetris.Width)
+	fld.drawTile(space, fld.tetris.Height + 1, fld.tetris.Width)
 }
 
-func (scr *Screen) Printable() string {
-	frame := "\x1b[32m"
-	for _, line := range(scr.main) {
-		frame += string(line) + "\n\r"
-	}
-	frame += "\x1b[0m"
-
-	return frame
+func (fld *Field) drawTile(gl glyph, trow int, tcol int) {
+	fld.canvas.draw(gl, trow, (tcol + 1) * 2)
 }

@@ -88,7 +88,26 @@
   - Clean-up properly at SIGINT (C-c)
   - Ensure it runs well on Mac and Win
   - Refactor
-    - `glyph` should be `[2]rune`, not a `string`
+    - Graphics
+      - `glyph` should be `[2]rune`, not a `string`
+      - field.Render()
+		// nextPiece.Render()
+		// other-ui-elements.Render()
+		// ^^^ all this to be extracted to Graphics as well
+        Graphics render everything to the same instance of `Screen`,
+        and then that screen gets printed to terminal
+        field, NextPiece and others know about tetris, while
+		`viewport` and `Screen` don't
+        And yes, it might be okay of `main()` knows about the screen
+		too, creates a screen itself (since it's related to
+		terminal!), passes it to Graphics, let graphics render things,
+		and then takes the instance of `Screen` directly to print it
+		to terminal.
+        - Идея! Функция создания viewport'а находится у Screen'а, но
+          вызывают её элементы интерфейса (потому что только они знают
+          размеры!), далее хранят этот вьюпорт у себя, и рисуют уже
+          только на нём, а screen не хранят вообще, им же нужен
+          толкько viewport
     - Extract testing framework from `core_test.go`, it feel too dirty
       when dumped in the same file
     - Try using beautiful Unicode characters like `𐘀`
