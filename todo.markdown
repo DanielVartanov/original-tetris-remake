@@ -38,8 +38,8 @@
   [V] Make graphics dark green
   [V] Make `main()` add a _random_ piece in the beginning
   [V] Make it centered
-  - Make the piece fall (not drop) by timer
-  - Make the game react to `left` and `right` buttons
+  [V] Make the piece fall (not drop) by timer
+  [.] Make the game react to `left` and `right` buttons
 
 - Test over the graphics
   - Make the graphics output a string of a size of the playing field
@@ -78,7 +78,7 @@
         - Also add a docstring to `core.go`, simply say it defines
           core mechanics of Tetris. I guess, `piece.go` is
           self-explanatory and does not require a comment
-  - Next figure
+  - Next piece
   - Score calcs
   - Levels & speeding up
   - Hotkeys / help
@@ -88,6 +88,12 @@
   - Clean-up properly at SIGINT (C-c)
   - Ensure it runs well on Mac and Win
   - Refactor
+    - Game
+      - Leave only system/terminal issues in `tetris.go`, everything
+        related to game shall be in `game.go` or whatever: it will
+        create `Tetris`, set up timer, initiate graphics etc (maybe
+        only `Screen` is to be created at `main()` level as it is
+        related to terminal)
     - Graphics
       - `glyph` should be `[2]rune`, not a `string`
       - field.Render()
@@ -108,6 +114,7 @@
           размеры!), далее хранят этот вьюпорт у себя, и рисуют уже
           только на нём, а screen не хранят вообще, им же нужен
           толкько viewport
+
     - Extract testing framework from `core_test.go`, it feel too dirty
       when dumped in the same file
     - Try using beautiful Unicode characters like `𐘀`

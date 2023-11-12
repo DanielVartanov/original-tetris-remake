@@ -45,7 +45,7 @@ func (ts *Tetris) MoveLeft() {
 	ts.piecePos.Col -= 1
 }
 
-func (ts *Tetris) Progress() {
+func (ts *Tetris) Fall() {
 	ts.piecePos.Row += 1
 }
 

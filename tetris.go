@@ -5,6 +5,7 @@ import (
 	"os/signal"
 	"syscall"
 	"math/rand"
+	"time"
 
 	"golang.org/x/term"
 )
@@ -20,6 +21,8 @@ func main() {
 	defer showCursor()
 
 	keys := keystrokes()
+
+	ticker := time.NewTicker(700 * time.Millisecond)
 
 	clearTerminal()
 
@@ -37,6 +40,8 @@ mainloop:
 		select {
 		case <-sig:
 			break mainloop
+		case <-ticker.C:
+			tetris.Fall()
 		case key := <-keys:
 			switch key {
 			case 0x03: // Ctrl+C
