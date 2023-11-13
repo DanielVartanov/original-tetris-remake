@@ -34,12 +34,12 @@
 
 [V] Implement steps/progressions, even without checking for the field boundaries
 
-[.] Glue everything back
+[V] Glue everything back
   [V] Make graphics dark green
   [V] Make `main()` add a _random_ piece in the beginning
   [V] Make it centered
   [V] Make the piece fall (not drop) by timer
-  [.] Make the game react to `left` and `right` buttons
+  [V] Make the game react to `left` and `right` buttons
 
 - Test over the graphics
   - Make the graphics output a string of a size of the playing field
@@ -81,6 +81,15 @@
   - Next piece
   - Score calcs
   - Levels & speeding up
+  - Make it react to arrow keys (requires stdin buffer)
+    ```ruby
+    if (first := reader.Read()) == '\x1b' {
+        second, third := reader.Read(), reader.Read()
+        return {first, second, third}
+    } else {
+        return first
+    }
+    ```
   - Hotkeys / help
 
 - Correctness

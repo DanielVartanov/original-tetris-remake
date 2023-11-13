@@ -48,6 +48,10 @@ mainloop:
 				break mainloop
 			case 'q':
 				break mainloop
+			case 'a':
+				tetris.MoveLeft()
+			case 'd':
+				tetris.MoveRight()
 			}
 		default:
 
