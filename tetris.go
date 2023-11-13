@@ -31,7 +31,7 @@ func main() {
 	tetris.AddPiece(&randomPiece)
 
 	termH, termW := termSize()
-	screen := NewScreen(termH - 1, termW, &tetris)
+	screen := NewScreen(termH - 1, termW)
 
 	field := NewField(&tetris, &screen)
 

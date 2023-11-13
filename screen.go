@@ -3,11 +3,10 @@ package main
 type Screen struct {
 	Height int
 	Width int
-
-	main viewport
+	Main viewport
 }
 
-func NewScreen(height, width int, tetris *Tetris) Screen {
+func NewScreen(height, width int) Screen {
 	main := make([][]rune, height)
 	for row := range(main) {
 		main[row] = make([]rune, width)
@@ -19,14 +18,13 @@ func NewScreen(height, width int, tetris *Tetris) Screen {
 	return Screen{
 		Height: height,
 		Width: width,
-
-		main: main,
+		Main: main,
 	}
 }
 
 func (scr *Screen) Printable() string {
 	frame := "\x1b[32m"
-	for _, line := range(scr.main) {
+	for _, line := range(scr.Main) {
 		frame += string(line) + "\n\r"
 	}
 	frame += "\x1b[0m"
@@ -40,7 +38,7 @@ func (scr *Screen) allocate(height int, width int, rowOffset int, colOffset int)
 	for row := scr.Height / 2 + rowOffset;
             row < scr.Height / 2 + height + rowOffset;
             row++ {
-		    vp = append(vp, scr.main[row][scr.Width / 2 + colOffset : scr.Width / 2 + width + colOffset])
+		    vp = append(vp, scr.Main[row][scr.Width / 2 + colOffset : scr.Width / 2 + width + colOffset])
 	    }
 
 	return vp

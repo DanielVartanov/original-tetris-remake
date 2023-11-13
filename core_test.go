@@ -1,4 +1,3 @@
-
 package main
 
 import (
@@ -89,9 +88,9 @@ func TestTetris_Progress(t *testing.T) {
 
 	assertFilm(t, &ts,
 		actions{
-			func() { ts.Progress() },
-			func() { ts.Progress() },
-			func() { ts.Progress() },
+			func() { ts.Fall() },
+			func() { ts.Fall() },
+			func() { ts.Fall() },
 		},
 		film{
 			{"|     |", "|     |", "|     |", "|     |"},
