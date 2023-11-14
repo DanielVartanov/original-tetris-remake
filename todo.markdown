@@ -41,25 +41,29 @@
   [V] Make the piece fall (not drop) by timer
   [V] Make the game react to `left` and `right` buttons
 
-- Test over the graphics
-  - Make the graphics output a string of a size of the playing field
-  - Simply compare the string full of glyphs to the expected one,
-    like this:
-    ```
-      <! . . . . . . . . . .!>
-      <! . . . . . . . . . .!>
-      <!====================!>
-        \/\/\/\/\/\/\/\/\/\/
-    ```
+[V] Test over the graphics
+  [V] Make the graphics output a string of a size of the playing field
+  [V] Simply compare the string full of glyphs to the expected one,
+      like this:
+      ```
+        <! . . . . . . . . . .!>
+        <! . . . . . . . . . .!>
+        <!====================!>
+          \/\/\/\/\/\/\/\/\/\/
+      ```
 
-- Core game functions and tests for them
+[.] Core game functions and tests for them
   [V] All types of pieces
-  - Movement logic:
-    - Sideways movement
-    - Simple: down upon timer events
+  [.] Movement logic:
+    [V] Sideways movement
+    [V] Simple: down upon timer events
+    [.] Collision detection
+      [.] When moving sideways
+      [.] When falling (against the bottom)
+    - Filled cells
+      - Collision detection with filled cells
     - Rotation
-      - Perhaps each figure shall have its own rules of rotation:
-        compare a T to a square, for instance
+    - Piece drop
 
 - Final similarities to the original
   - Read screen size on init, draw from the middle
@@ -82,7 +86,7 @@
   - Score calcs
   - Levels & speeding up
   - Make it react to arrow keys (requires stdin buffer)
-    ```ruby
+    ```go
     if (first := reader.Read()) == '\x1b' {
         second, third := reader.Read(), reader.Read()
         return {first, second, third}
