@@ -60,9 +60,9 @@
     [V] Collision detection
       [V] When moving sideways
       [V] When falling (against the bottom)
-    [.] Convert all `== '■'` to `IterateSolidParts`
-    - Filled cells
-      - Collision detection with filled cells
+    [V] Encapsulate all `== '■'`
+    [.] Filled cells
+      [.] Collision detection with filled cells
     - Rotation
       - Ability to rotate
       - Collision detection while rotate

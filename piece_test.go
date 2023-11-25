@@ -19,3 +19,27 @@ func TestPiece_IterateSolidParts(t *testing.T) {
 		t.Errorf("\n\rGot:  %v\n\rWant: %v", gotCallbacks, wantCallbacks)
 	}
 }
+
+func TestPiece_SolidAt(t *testing.T) {
+	piece := Pieces['S']
+
+	if piece.SolidAt(1, 0) {
+		t.Fail()
+	}
+
+	if !piece.SolidAt(1, 1) {
+		t.Fail()
+	}
+
+	if !piece.SolidAt(2, 0) {
+		t.Fail()
+	}
+
+	if !piece.SolidAt(2, 1) {
+		t.Fail()
+	}
+
+	if piece.SolidAt(2, 2) {
+		t.Fail()
+	}
+}

@@ -70,7 +70,7 @@ func (ts Tetris) isPieceAt(pt Coords) bool {
 		   return false
 	   }
 
-	return ts.piece[pt.Row - ts.piecePos.Row][pt.Col - ts.piecePos.Col] == '■'
+	return ts.piece.SolidAt(pt.Row - ts.piecePos.Row, pt.Col - ts.piecePos.Col)
 }
 
 func (ts *Tetris) CanMoveLeft() bool {
