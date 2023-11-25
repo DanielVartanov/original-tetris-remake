@@ -80,7 +80,7 @@ func TestTetris_MoveSideways(t *testing.T) {
 	)
 }
 
-func TestTetris_Progress(t *testing.T) {
+func TestTetris_Fall(t *testing.T) {
 	piece := Pieces['J']
 
 	ts := NewTetris(6, 5)
@@ -99,6 +99,70 @@ func TestTetris_Progress(t *testing.T) {
 			{"|     |", "| xxx |", "| x   |", "|     |"},
 			{"|     |", "|     |", "| xxx |", "| x   |"},
 			{"|     |", "|     |", "|     |", "| xxx |"},
+			{"|-----|", "|-----|", "|-----|", "|-----|"},
+		},
+	)
+}
+
+func TestTetris_MoveSideways_Collision(t *testing.T) {
+	piece := Pieces['O']
+
+	ts := NewTetris(4, 4)
+	ts.AddPiece(&piece)
+
+	assertFilm(t, &ts,
+		actions{
+			func() { ts.MoveRight() },
+			func() { ts.MoveRight() },
+			func() { ts.MoveRight() },
+		},
+		film{
+			{"|    |", "|    |", "|    |", "|    |"},
+			{"| xx |", "|  xx|", "|  xx|", "|  xx|"},
+			{"| xx |", "|  xx|", "|  xx|", "|  xx|"},
+			{"|    |", "|    |", "|    |", "|    |"},
+			{"|----|", "|----|", "|----|", "|----|"},
+		},
+	)
+
+	ts = NewTetris(4, 4)
+	ts.AddPiece(&piece)
+
+	assertFilm(t, &ts,
+		actions{
+			func() { ts.MoveLeft() },
+			func() { ts.MoveLeft() },
+			func() { ts.MoveLeft() },
+		},
+		film{
+			{"|    |", "|    |", "|    |", "|    |"},
+			{"| xx |", "|xx  |", "|xx  |", "|xx  |"},
+			{"| xx |", "|xx  |", "|xx  |", "|xx  |"},
+			{"|    |", "|    |", "|    |", "|    |"},
+			{"|----|", "|----|", "|----|", "|----|"},
+		},
+	)
+}
+
+
+func TestTetris_Fall_Collision(t *testing.T) {
+	piece := Pieces['J']
+
+	ts := NewTetris(5, 5)
+	ts.AddPiece(&piece)
+
+	assertFilm(t, &ts,
+		actions{
+			func() { ts.Fall() },
+			func() { ts.Fall() },
+			func() { ts.Fall() },
+		},
+		film{
+			{"|     |", "|     |", "|     |", "|     |"},
+			{"| x   |", "|     |", "|     |", "|     |"},
+			{"| xxx |", "| x   |", "|     |", "|     |"},
+			{"|     |", "| xxx |", "| x   |", "| x   |"},
+			{"|     |", "|     |", "| xxx |", "| xxx |"},
 			{"|-----|", "|-----|", "|-----|", "|-----|"},
 		},
 	)

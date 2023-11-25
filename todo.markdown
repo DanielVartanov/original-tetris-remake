@@ -57,12 +57,15 @@
   [.] Movement logic:
     [V] Sideways movement
     [V] Simple: down upon timer events
-    [.] Collision detection
-      [.] When moving sideways
-      [.] When falling (against the bottom)
+    [V] Collision detection
+      [V] When moving sideways
+      [V] When falling (against the bottom)
+    [.] Convert all `== '■'` to `IterateSolidParts`
     - Filled cells
       - Collision detection with filled cells
     - Rotation
+      - Ability to rotate
+      - Collision detection while rotate
     - Piece drop
 
 - Final similarities to the original
@@ -100,7 +103,15 @@
   - Get notified on screen size change (zoom and/or re-size) and re-draw
   - Clean-up properly at SIGINT (C-c)
   - Ensure it runs well on Mac and Win
+  - Check if usage of "reflect" package is okay, change otherwise
   - Refactor
+    - Extract game-mechanics `Field` from `Tetris`, it will be
+        responsible for: `Fill`, `wouldCollide`, `CanXxx`, `IsFilled`,
+        `CanSnap`, `Snap`(notice, it's a passive struct!)
+        so that game(Tetris?) would:
+        `if (! CanFall()) { if fld.CanSnap() { AddScore(fld.Snap()) }; NextPiece() }`
+        - Perhaps, graphics indeed will need to be extracted to a
+          package to avoid name clash
     - Game
       - Leave only system/terminal issues in `tetris.go`, everything
         related to game shall be in `game.go` or whatever: it will

@@ -38,15 +38,21 @@ func (ts *Tetris) IsOccupiedAt(pt Coords) bool {
 }
 
 func (ts *Tetris) MoveRight() {
-	ts.piecePos.Col += 1
+	if ts.CanMoveRight() {
+		ts.piecePos.Col += 1
+	}
 }
 
 func (ts *Tetris) MoveLeft() {
-	ts.piecePos.Col -= 1
+	if ts.CanMoveLeft() {
+		ts.piecePos.Col -= 1
+	}
 }
 
 func (ts *Tetris) Fall() {
-	ts.piecePos.Row += 1
+	if ts.CanFall() {
+		ts.piecePos.Row += 1
+	}
 }
 
 func (ts Tetris) isFilledAt(pt Coords) bool {
@@ -61,8 +67,40 @@ func (ts Tetris) isPieceAt(pt Coords) bool {
 	if pt.Row < ts.piecePos.Row || pt.Row - ts.piecePos.Row >= PieceSize ||
 	   pt.Col < ts.piecePos.Col || pt.Col - ts.piecePos.Col >= PieceSize {
 
-		return false
-	}
+		   return false
+	   }
 
 	return ts.piece[pt.Row - ts.piecePos.Row][pt.Col - ts.piecePos.Col] == '■'
+}
+
+func (ts *Tetris) CanMoveLeft() bool {
+	return !ts.WouldCollide(ts.piece, Coords{ts.piecePos.Row, ts.piecePos.Col - 1})
+}
+
+func (ts *Tetris) CanMoveRight() bool {
+	return !ts.WouldCollide(ts.piece, Coords{ts.piecePos.Row, ts.piecePos.Col + 1})
+}
+
+func (ts *Tetris) CanFall() bool {
+	return !ts.WouldCollide(ts.piece, Coords{ts.piecePos.Row + 1, ts.piecePos.Col})
+}
+
+func (ts *Tetris) WouldCollide(piece *Piece, pos Coords) bool {
+	result := false
+
+	piece.IterateSolidParts(
+		func (row int, col int) {
+			result = result || (pos.Row + row < 0 ||
+             				    pos.Col + col < 0 ||
+               				    pos.Row + row > ts.Height - 1 ||
+	               			    pos.Col + col > ts.Width - 1)
+
+			if result {
+				return
+			}
+
+		        result = result || ts.isFilledAt(Coords{pos.Row + row, pos.Col + col})
+		})
+
+	return result
 }

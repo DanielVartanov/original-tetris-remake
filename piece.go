@@ -50,3 +50,13 @@ var Pieces = map[rune]Piece{
 		{' ', ' ', ' ', ' '},
 	},
 }
+
+func (pc Piece) IterateSolidParts(fn func(row int, col int)) {
+	for row := range(pc) {
+		for col := range(pc[row]) {
+			if (pc[row][col] == '■') {
+				fn(row, col)
+			}
+		}
+	}
+}
