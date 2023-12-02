@@ -61,12 +61,24 @@
       [V] When moving sideways
       [V] When falling (against the bottom)
     [V] Encapsulate all `== '■'`
-    [.] Filled cells
-      [.] Collision detection with filled cells
-    - Rotation
-      - Ability to rotate
-      - Collision detection while rotate
-    - Piece drop
+    [V] Rotation
+      [V] Ability to rotate upon `W` keypress
+    [.] Piece drop movement upon `S` keypress
+    [V] Filled cells
+      - Collision detection with filled cells
+
+- Make it a game
+  - Bake-in the pieces that can't fall further
+  - Add a new piece when the previous one is baked-in
+  - Snap a line if filled
+  - Keep scores for the snapped lines
+  - Extract game-mechanics `Field` from `Tetris`, it will be
+        responsible for: `Fill`, `wouldCollide`, `CanXxx`, `IsFilled`,
+        `CanSnap`, `Snap`(notice, it's a passive struct!)
+        so that game(Tetris?) would:
+        `if (! CanFall()) { if fld.CanSnap() { AddScore(fld.Snap()) }; NextPiece() }`
+        - Perhaps, graphics indeed will need to be extracted to a
+          package to avoid name clash
 
 - Final similarities to the original
   - Read screen size on init, draw from the middle
@@ -105,13 +117,6 @@
   - Ensure it runs well on Mac and Win
   - Check if usage of "reflect" package is okay, change otherwise
   - Refactor
-    - Extract game-mechanics `Field` from `Tetris`, it will be
-        responsible for: `Fill`, `wouldCollide`, `CanXxx`, `IsFilled`,
-        `CanSnap`, `Snap`(notice, it's a passive struct!)
-        so that game(Tetris?) would:
-        `if (! CanFall()) { if fld.CanSnap() { AddScore(fld.Snap()) }; NextPiece() }`
-        - Perhaps, graphics indeed will need to be extracted to a
-          package to avoid name clash
     - Game
       - Leave only system/terminal issues in `tetris.go`, everything
         related to game shall be in `game.go` or whatever: it will

@@ -104,6 +104,29 @@ func TestTetris_Fall(t *testing.T) {
 	)
 }
 
+func TestTetris_Rotate(t *testing.T) {
+	piece := Pieces['T']
+
+	ts := NewTetris(4, 4)
+	ts.AddPiece(&piece)
+
+	assertFilm(t, &ts,
+		actions{
+			func() { ts.RotateCW() },
+			func() { ts.RotateCW() },
+			func() { ts.RotateCW() },
+			func() { ts.RotateCW() },
+		},
+		film{
+			{"|    |", "| x  |", "|    |", "|  x |", "|    |"},
+			{"| x  |", "| xx |", "|xxx |", "| xx |", "| x  |"},
+			{"|xxx |", "| x  |", "| x  |", "|  x |", "|xxx |"},
+			{"|    |", "|    |", "|    |", "|    |", "|    |"},
+			{"|----|", "|----|", "|----|", "|----|", "|----|"},
+		},
+	)
+}
+
 func TestTetris_MoveSideways_Collision(t *testing.T) {
 	piece := Pieces['O']
 

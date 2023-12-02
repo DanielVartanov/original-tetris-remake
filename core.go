@@ -9,9 +9,10 @@ type Tetris struct {
 	Height int
 	Width  int
 
-	field    [][]bool
-	piece    *Piece
-	piecePos Coords
+	field     [][]bool
+	piece     *Piece
+	piecePos  Coords
+	pieceOrnt Orientation
 }
 
 func NewTetris(height int, width int) Tetris {
@@ -22,7 +23,7 @@ func NewTetris(height int, width int) Tetris {
 
 	return Tetris{
 		Height: height,
-		Width: width,
+		Width:  width,
 
 		field: field,
 	}
@@ -49,6 +50,20 @@ func (ts *Tetris) MoveLeft() {
 	}
 }
 
+func (ts *Tetris) RotateCW() {
+	// if ts.CanRotateCW() {
+	// 	ts.pieceOrnt = ts.pieceOrnt.RotateCW()
+	// }
+	ts.pieceOrnt = ts.pieceOrnt.RotateCW()
+}
+
+func (ts *Tetris) RotateCCW() {
+	// if ts.CanRotateCCW() {
+	// 	ts.pieceOrnt = ts.pieceOrnt.RotateCCW()
+	// }
+	ts.pieceOrnt = ts.pieceOrnt.RotateCCW()
+}
+
 func (ts *Tetris) Fall() {
 	if ts.CanFall() {
 		ts.piecePos.Row += 1
@@ -65,30 +80,39 @@ func (ts Tetris) isPieceAt(pt Coords) bool {
 	}
 
 	if pt.Row < ts.piecePos.Row || pt.Row - ts.piecePos.Row >= PieceSize ||
-	   pt.Col < ts.piecePos.Col || pt.Col - ts.piecePos.Col >= PieceSize {
+           pt.Col < ts.piecePos.Col || pt.Col - ts.piecePos.Col >= PieceSize {
 
-		   return false
-	   }
+		return false
+	}
 
-	return ts.piece.SolidAt(pt.Row - ts.piecePos.Row, pt.Col - ts.piecePos.Col)
+	return ts.piece.SolidAt(pt.Row - ts.piecePos.Row, pt.Col - ts.piecePos.Col, ts.pieceOrnt)
 }
 
 func (ts *Tetris) CanMoveLeft() bool {
-	return !ts.WouldCollide(ts.piece, Coords{ts.piecePos.Row, ts.piecePos.Col - 1})
+	return !ts.WouldCollide(ts.piece, Coords{ts.piecePos.Row, ts.piecePos.Col - 1}, ts.pieceOrnt)
 }
 
 func (ts *Tetris) CanMoveRight() bool {
-	return !ts.WouldCollide(ts.piece, Coords{ts.piecePos.Row, ts.piecePos.Col + 1})
+	return !ts.WouldCollide(ts.piece, Coords{ts.piecePos.Row, ts.piecePos.Col + 1}, ts.pieceOrnt)
 }
 
 func (ts *Tetris) CanFall() bool {
-	return !ts.WouldCollide(ts.piece, Coords{ts.piecePos.Row + 1, ts.piecePos.Col})
+	return !ts.WouldCollide(ts.piece, Coords{ts.piecePos.Row + 1, ts.piecePos.Col}, ts.pieceOrnt)
 }
 
-func (ts *Tetris) WouldCollide(piece *Piece, pos Coords) bool {
+// func (ts *Tetris) CanRotateCW() bool {
+// 	return ts.WouldCollide(ts.piece, Coords{ts.piecePos.Col, ts.piecePos.Row}, ts.pieceOrnt.RotateCW())
+// }
+
+// func (ts *Tetris) CanRotateCCW() bool {
+// 	return ts.WouldCollide(ts.piece, Coords{ts.piecePos.Col, ts.piecePos.Row}, ts.pieceOrnt.RotateCCW())
+// }
+
+func (ts *Tetris) WouldCollide(piece *Piece, pos Coords, ornt Orientation) bool {
 	result := false
 
 	piece.IterateSolidParts(
+		ornt,
 		func (row int, col int) {
 			result = result || (pos.Row + row < 0 ||
              				    pos.Col + col < 0 ||
