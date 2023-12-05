@@ -167,7 +167,6 @@ func TestTetris_MoveSideways_Collision(t *testing.T) {
 	)
 }
 
-
 func TestTetris_Fall_Collision(t *testing.T) {
 	piece := Pieces['J']
 
@@ -187,6 +186,27 @@ func TestTetris_Fall_Collision(t *testing.T) {
 			{"|     |", "| xxx |", "| x   |", "| x   |"},
 			{"|     |", "|     |", "| xxx |", "| xxx |"},
 			{"|-----|", "|-----|", "|-----|", "|-----|"},
+		},
+	)
+}
+
+func TestTetris_Drop(t *testing.T) {
+	piece := Pieces['J']
+
+	ts := NewTetris(5, 5)
+	ts.AddPiece(&piece)
+
+	assertFilm(t, &ts,
+		actions{
+			func() { ts.Drop() },
+		},
+		film{
+			{"|     |", "|     |"},
+			{"| x   |", "|     |"},
+			{"| xxx |", "|     |"},
+			{"|     |", "| x   |"},
+			{"|     |", "| xxx |"},
+			{"|-----|", "|-----|"},
 		},
 	)
 }

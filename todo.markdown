@@ -52,9 +52,9 @@
           \/\/\/\/\/\/\/\/\/\/
       ```
 
-[.] Core game functions and tests for them
+[V] Core game functions and tests for them
   [V] All types of pieces
-  [.] Movement logic:
+  [V] Movement logic:
     [V] Sideways movement
     [V] Simple: down upon timer events
     [V] Collision detection
@@ -62,13 +62,17 @@
       [V] When falling (against the bottom)
     [V] Encapsulate all `== '■'`
     [V] Rotation
-      [V] Ability to rotate upon `W` keypress
-    [.] Piece drop movement upon `S` keypress
+      [V] Ability to rotate upon `w` keypress
+    [V] Piece drop movement upon `s` keypress
     [V] Filled cells
-      - Collision detection with filled cells
 
-- Make it a game
-  - Bake-in the pieces that can't fall further
+[.] Make it a game
+  [.] Bake-in the pieces that can't fall further
+  - Collision detection with filled cells
+    - When moving sideways
+    - When falling
+    - When dropping
+    - When rotating
   - Add a new piece when the previous one is baked-in
   - Snap a line if filled
   - Keep scores for the snapped lines

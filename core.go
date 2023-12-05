@@ -64,6 +64,12 @@ func (ts *Tetris) RotateCCW() {
 	ts.pieceOrnt = ts.pieceOrnt.RotateCCW()
 }
 
+func (ts *Tetris) Drop() {
+	for ts.CanFall() {
+		ts.Fall()
+	}
+}
+
 func (ts *Tetris) Fall() {
 	if ts.CanFall() {
 		ts.piecePos.Row += 1

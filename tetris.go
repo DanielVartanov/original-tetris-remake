@@ -54,6 +54,8 @@ mainloop:
 				tetris.MoveRight()
 			case 'w':
 				tetris.RotateCW()
+			case 's':
+				tetris.Drop()
 			}
 		default:
 
