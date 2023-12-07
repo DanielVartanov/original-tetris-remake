@@ -51,17 +51,15 @@ func (ts *Tetris) MoveLeft() {
 }
 
 func (ts *Tetris) RotateCW() {
-	// if ts.CanRotateCW() {
-	// 	ts.pieceOrnt = ts.pieceOrnt.RotateCW()
-	// }
-	ts.pieceOrnt = ts.pieceOrnt.RotateCW()
+	if ts.CanRotateCW() {
+		ts.pieceOrnt = ts.pieceOrnt.RotateCW()
+	}
 }
 
 func (ts *Tetris) RotateCCW() {
-	// if ts.CanRotateCCW() {
-	// 	ts.pieceOrnt = ts.pieceOrnt.RotateCCW()
-	// }
-	ts.pieceOrnt = ts.pieceOrnt.RotateCCW()
+	if ts.CanRotateCCW() {
+		ts.pieceOrnt = ts.pieceOrnt.RotateCCW()
+	}
 }
 
 func (ts *Tetris) Drop() {
@@ -106,13 +104,13 @@ func (ts *Tetris) CanFall() bool {
 	return !ts.WouldCollide(ts.piece, Coords{ts.piecePos.Row + 1, ts.piecePos.Col}, ts.pieceOrnt)
 }
 
-// func (ts *Tetris) CanRotateCW() bool {
-// 	return ts.WouldCollide(ts.piece, Coords{ts.piecePos.Col, ts.piecePos.Row}, ts.pieceOrnt.RotateCW())
-// }
+func (ts *Tetris) CanRotateCW() bool {
+	return !ts.WouldCollide(ts.piece, Coords{ts.piecePos.Col, ts.piecePos.Row}, ts.pieceOrnt.RotateCW())
+}
 
-// func (ts *Tetris) CanRotateCCW() bool {
-// 	return ts.WouldCollide(ts.piece, Coords{ts.piecePos.Col, ts.piecePos.Row}, ts.pieceOrnt.RotateCCW())
-// }
+func (ts *Tetris) CanRotateCCW() bool {
+	return !ts.WouldCollide(ts.piece, Coords{ts.piecePos.Col, ts.piecePos.Row}, ts.pieceOrnt.RotateCCW())
+}
 
 func (ts *Tetris) WouldCollide(piece *Piece, pos Coords, ornt Orientation) bool {
 	result := false

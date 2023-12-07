@@ -83,7 +83,6 @@ func TestTetris_Rotate(t *testing.T) {
 	)
 }
 
-
 func TestTetris_Drop(t *testing.T) {
 	piece := Pieces['J']
 

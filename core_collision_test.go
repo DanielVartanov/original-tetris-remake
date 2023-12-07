@@ -66,7 +66,47 @@ func TestTetris_Fall_Boundary_Collision(t *testing.T) {
 }
 
 func TestTetris_Drop_Boundary_Collision(t *testing.T) {
+	piece := Pieces['J']
+
+	ts := NewTetris(5, 5)
+	ts.AddPiece(&piece)
+
+	assertFilm(t, &ts,
+		actions{
+			func() { ts.Drop() },
+			func() { ts.Drop() },
+		},
+		film{
+			{"|     |", "|     |", "|     |"},
+			{"| x   |", "|     |", "|     |"},
+			{"| xxx |", "|     |", "|     |"},
+			{"|     |", "| x   |", "| x   |"},
+			{"|     |", "| xxx |", "| xxx |"},
+			{"|-----|", "|-----|", "|-----|"},
+		},
+	)
 }
 
 func TestTetris_Rotate_Boundary_Collision(t *testing.T) {
+	piece := Pieces['I']
+
+	ts := NewTetris(4, 5)
+	ts.AddPiece(&piece)
+
+	ts.RotateCW()
+	ts.MoveRight()
+	ts.MoveRight()
+
+	assertFilm(t, &ts,
+		actions{
+			func() { ts.RotateCW() },
+		},
+		film{
+			{"|    x|", "|    x|"},
+			{"|    x|", "|    x|"},
+			{"|    x|", "|    x|"},
+			{"|    x|", "|    x|"},
+			{"|-----|", "|-----|"},
+		},
+	)
 }

@@ -56,6 +56,14 @@ func takeSnapshot(ts Tetris) snapshot {
 	return img
 }
 
+func logSnapshot(ts Tetris) {
+	print("\n\r\x1b[37m")
+	for _, line := range(takeSnapshot(ts)) {
+		println(line)
+	}
+	print("\x1b[0m\n\r")
+}
+
 func assertFilm(t *testing.T, ts *Tetris, actions actions, wantFlm film) {
 	t.Helper()
 

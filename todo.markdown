@@ -63,18 +63,19 @@
     [V] Encapsulate all `== '■'`
     [V] Rotation
       [V] Ability to rotate upon `w` keypress
+      [V] Boundaries collision detection
     [V] Piece drop movement upon `s` keypress
     [V] Filled cells
 
-[.] Make it a game
+[.]- Make it a game
   [.] Bake-in the pieces that can't fall further
+  - Add a new piece when the previous one is baked-in
+  - Snap a line if filled
   - Collision detection with filled cells
     - When moving sideways
     - When falling
     - When dropping
     - When rotating
-  - Add a new piece when the previous one is baked-in
-  - Snap a line if filled
   - Keep scores for the snapped lines
   - Extract game-mechanics `Field` from `Tetris`, it will be
         responsible for: `Fill`, `wouldCollide`, `CanXxx`, `IsFilled`,
