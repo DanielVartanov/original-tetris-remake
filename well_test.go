@@ -2,10 +2,10 @@ package main
 
 import "testing"
 
-func TestEmptyField(t *testing.T) {
-	ts := NewTetris(5, 6)
+func TestWell_Empty(t *testing.T) {
+	w := NewWell(5, 6)
 
-	assertSnapshot(t, ts, snapshot{
+	assertSnapshot(t, w, snapshot{
 		"|      |",
 		"|      |",
 		"|      |",
@@ -15,13 +15,13 @@ func TestEmptyField(t *testing.T) {
 	})
 }
 
-func TestTetris_AddPiece(t *testing.T) {
+func TestWell_AddPiece(t *testing.T) {
 	piece := Pieces['O']
 
-	ts := NewTetris(5, 5)
-	ts.AddPiece(&piece)
+	w := NewWell(5, 5)
+	w.AddPiece(&piece)
 
-	assertSnapshot(t, ts, snapshot{
+	assertSnapshot(t, w, snapshot{
 		"|     |",
 		"| xx  |",
 		"| xx  |",
@@ -30,10 +30,10 @@ func TestTetris_AddPiece(t *testing.T) {
 		"|-----|",
 	})
 
-	ts = NewTetris(5, 6)
-	ts.AddPiece(&piece)
+	w = NewWell(5, 6)
+	w.AddPiece(&piece)
 
-	assertSnapshot(t, ts, snapshot{
+	assertSnapshot(t, w, snapshot{
 		"|      |",
 		"|  xx  |",
 		"|  xx  |",

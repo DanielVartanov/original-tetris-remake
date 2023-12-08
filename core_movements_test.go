@@ -2,15 +2,15 @@ package main
 
 import "testing"
 
-func TestTetris_MoveSideways(t *testing.T) {
+func TestWell_MoveSideways(t *testing.T) {
 	piece := Pieces['J']
 
-	ts := NewTetris(4, 5)
-	ts.AddPiece(&piece)
+	w := NewWell(4, 5)
+	w.AddPiece(&piece)
 
-	assertFilm(t, &ts,
+	assertFilm(t, &w,
 		actions{
-			func() { ts.MoveRight() },
+			func() { w.MoveRight() },
 		},
 		film{
 			{"|     |", "|     |"},
@@ -21,10 +21,10 @@ func TestTetris_MoveSideways(t *testing.T) {
 		},
 	)
 
-	assertFilm(t, &ts,
+	assertFilm(t, &w,
 		actions{
-			func() { ts.MoveLeft() },
-			func() { ts.MoveLeft() },
+			func() { w.MoveLeft() },
+			func() { w.MoveLeft() },
 		},
 		film{
 			{"|     |", "|     |", "|     |"},
@@ -36,17 +36,17 @@ func TestTetris_MoveSideways(t *testing.T) {
 	)
 }
 
-func TestTetris_Fall(t *testing.T) {
+func TestWell_Fall(t *testing.T) {
 	piece := Pieces['J']
 
-	ts := NewTetris(6, 5)
-	ts.AddPiece(&piece)
+	w := NewWell(6, 5)
+	w.AddPiece(&piece)
 
-	assertFilm(t, &ts,
+	assertFilm(t, &w,
 		actions{
-			func() { ts.Fall() },
-			func() { ts.Fall() },
-			func() { ts.Fall() },
+			func() { w.Fall() },
+			func() { w.Fall() },
+			func() { w.Fall() },
 		},
 		film{
 			{"|     |", "|     |", "|     |", "|     |"},
@@ -60,18 +60,18 @@ func TestTetris_Fall(t *testing.T) {
 	)
 }
 
-func TestTetris_Rotate(t *testing.T) {
+func TestWell_Rotate(t *testing.T) {
 	piece := Pieces['T']
 
-	ts := NewTetris(4, 4)
-	ts.AddPiece(&piece)
+	w := NewWell(4, 4)
+	w.AddPiece(&piece)
 
-	assertFilm(t, &ts,
+	assertFilm(t, &w,
 		actions{
-			func() { ts.RotateCW() },
-			func() { ts.RotateCW() },
-			func() { ts.RotateCW() },
-			func() { ts.RotateCW() },
+			func() { w.RotateCW() },
+			func() { w.RotateCW() },
+			func() { w.RotateCW() },
+			func() { w.RotateCW() },
 		},
 		film{
 			{"|    |", "| x  |", "|    |", "|  x |", "|    |"},
@@ -83,15 +83,15 @@ func TestTetris_Rotate(t *testing.T) {
 	)
 }
 
-func TestTetris_Drop(t *testing.T) {
+func TestWell_Drop(t *testing.T) {
 	piece := Pieces['J']
 
-	ts := NewTetris(5, 5)
-	ts.AddPiece(&piece)
+	w := NewWell(5, 5)
+	w.AddPiece(&piece)
 
-	assertFilm(t, &ts,
+	assertFilm(t, &w,
 		actions{
-			func() { ts.Drop() },
+			func() { w.Drop() },
 		},
 		film{
 			{"|     |", "|     |"},

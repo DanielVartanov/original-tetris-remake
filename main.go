@@ -26,7 +26,7 @@ func main() {
 
 	clearTerminal()
 
-	tetris := NewTetris(20, 10)
+	tetris := NewWell(20, 10)
 	randomPiece := Pieces[PieceNames[rand.Intn(len(PieceNames))]]
 	tetris.AddPiece(&randomPiece)
 
@@ -41,7 +41,7 @@ mainloop:
 		case <-sig:
 			break mainloop
 		case <-ticker.C:
-			tetris.Fall()
+			tetris.Fall() // tetris.Tick(), and then inside tetris counts amount of ticks and reacts, so that tetris does not know time and can be simulated/played at any speed
 		case key := <-keys:
 			switch key {
 			case 0x03: // Ctrl+C

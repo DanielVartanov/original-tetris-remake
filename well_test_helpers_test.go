@@ -11,15 +11,15 @@ type actions []func()
 
 type film [][]string
 
-func assertSnapshot(t *testing.T, ts Tetris, want snapshot) {
+func assertSnapshot(t *testing.T, well Well, want snapshot) {
 	t.Helper()
 
-	got := takeSnapshot(ts)
+	got := takeSnapshot(well)
 
 	if strings.Join(got, "") != strings.Join(want, "") {
 		errMsg := "\n\r\x1b[31mGot:\tWant:\n\r"
 
-		for row := 0; row < ts.Height + 1; row++ {
+		for row := 0; row < well.Height + 1; row++ {
 			errMsg += got[row] + "\t" + want[row] + "\n\r"
 		}
 
@@ -32,14 +32,14 @@ func assertSnapshot(t *testing.T, ts Tetris, want snapshot) {
 
 }
 
-func takeSnapshot(ts Tetris) snapshot {
-	img := make([]string, ts.Height + 1)
+func takeSnapshot(well Well) snapshot {
+	img := make([]string, well.Height + 1)
 
-	for row := 0; row < ts.Height; row++ {
+	for row := 0; row < well.Height; row++ {
 		line := "|"
 
-		for col := 0; col < ts.Width; col++ {
-			if ts.IsOccupiedAt(Coords{row, col}) {
+		for col := 0; col < well.Width; col++ {
+			if well.IsOccupiedAt(Coords{row, col}) {
 				line += "x"
 			} else {
 				line += " "
@@ -51,30 +51,30 @@ func takeSnapshot(ts Tetris) snapshot {
 		img[row] = line
 	}
 
-	img[ts.Height] = "|" + strings.Repeat("-", ts.Width) + "|"
+	img[well.Height] = "|" + strings.Repeat("-", well.Width) + "|"
 
 	return img
 }
 
-func logSnapshot(ts Tetris) {
+func logSnapshot(well Well) {
 	print("\n\r\x1b[37m")
-	for _, line := range(takeSnapshot(ts)) {
+	for _, line := range(takeSnapshot(well)) {
 		println(line)
 	}
 	print("\x1b[0m\n\r")
 }
 
-func assertFilm(t *testing.T, ts *Tetris, actions actions, wantFlm film) {
+func assertFilm(t *testing.T, well *Well, actions actions, wantFlm film) {
 	t.Helper()
 
 	var want, got []snapshot
 
 	want = filmToSnapshots(wantFlm)
 
-	got = append(got, takeSnapshot(*ts))
+	got = append(got, takeSnapshot(*well))
 	for _, action := range(actions) {
 		action()
-		got = append(got, takeSnapshot(*ts))
+		got = append(got, takeSnapshot(*well))
 	}
 
 	if ! areSnapshotSeriesEqual(got, want) {

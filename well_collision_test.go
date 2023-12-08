@@ -2,17 +2,17 @@ package main
 
 import "testing"
 
-func TestTetris_MoveSideways_Boundary_Collision(t *testing.T) {
+func TestWell_MoveSideways_Boundary_Collision(t *testing.T) {
 	piece := Pieces['O']
 
-	ts := NewTetris(4, 4)
-	ts.AddPiece(&piece)
+	w := NewWell(4, 4)
+	w.AddPiece(&piece)
 
-	assertFilm(t, &ts,
+	assertFilm(t, &w,
 		actions{
-			func() { ts.MoveRight() },
-			func() { ts.MoveRight() },
-			func() { ts.MoveRight() },
+			func() { w.MoveRight() },
+			func() { w.MoveRight() },
+			func() { w.MoveRight() },
 		},
 		film{
 			{"|    |", "|    |", "|    |", "|    |"},
@@ -23,14 +23,14 @@ func TestTetris_MoveSideways_Boundary_Collision(t *testing.T) {
 		},
 	)
 
-	ts = NewTetris(4, 4)
-	ts.AddPiece(&piece)
+	w = NewWell(4, 4)
+	w.AddPiece(&piece)
 
-	assertFilm(t, &ts,
+	assertFilm(t, &w,
 		actions{
-			func() { ts.MoveLeft() },
-			func() { ts.MoveLeft() },
-			func() { ts.MoveLeft() },
+			func() { w.MoveLeft() },
+			func() { w.MoveLeft() },
+			func() { w.MoveLeft() },
 		},
 		film{
 			{"|    |", "|    |", "|    |", "|    |"},
@@ -42,17 +42,17 @@ func TestTetris_MoveSideways_Boundary_Collision(t *testing.T) {
 	)
 }
 
-func TestTetris_Fall_Boundary_Collision(t *testing.T) {
+func TestWell_Fall_Boundary_Collision(t *testing.T) {
 	piece := Pieces['J']
 
-	ts := NewTetris(5, 5)
-	ts.AddPiece(&piece)
+	w := NewWell(5, 5)
+	w.AddPiece(&piece)
 
-	assertFilm(t, &ts,
+	assertFilm(t, &w,
 		actions{
-			func() { ts.Fall() },
-			func() { ts.Fall() },
-			func() { ts.Fall() },
+			func() { w.Fall() },
+			func() { w.Fall() },
+			func() { w.Fall() },
 		},
 		film{
 			{"|     |", "|     |", "|     |", "|     |"},
@@ -65,16 +65,16 @@ func TestTetris_Fall_Boundary_Collision(t *testing.T) {
 	)
 }
 
-func TestTetris_Drop_Boundary_Collision(t *testing.T) {
+func TestWell_Drop_Boundary_Collision(t *testing.T) {
 	piece := Pieces['J']
 
-	ts := NewTetris(5, 5)
-	ts.AddPiece(&piece)
+	w := NewWell(5, 5)
+	w.AddPiece(&piece)
 
-	assertFilm(t, &ts,
+	assertFilm(t, &w,
 		actions{
-			func() { ts.Drop() },
-			func() { ts.Drop() },
+			func() { w.Drop() },
+			func() { w.Drop() },
 		},
 		film{
 			{"|     |", "|     |", "|     |"},
@@ -87,19 +87,19 @@ func TestTetris_Drop_Boundary_Collision(t *testing.T) {
 	)
 }
 
-func TestTetris_Rotate_Boundary_Collision(t *testing.T) {
+func TestWell_Rotate_Boundary_Collision(t *testing.T) {
 	piece := Pieces['I']
 
-	ts := NewTetris(4, 5)
-	ts.AddPiece(&piece)
+	w := NewWell(4, 5)
+	w.AddPiece(&piece)
 
-	ts.RotateCW()
-	ts.MoveRight()
-	ts.MoveRight()
+	w.RotateCW()
+	w.MoveRight()
+	w.MoveRight()
 
-	assertFilm(t, &ts,
+	assertFilm(t, &w,
 		actions{
-			func() { ts.RotateCW() },
+			func() { w.RotateCW() },
 		},
 		film{
 			{"|    x|", "|    x|"},
