@@ -32,6 +32,7 @@ func NewWell(height int, width int) Well {
 func (w *Well) AddPiece(p *Piece) {
 	w.piece = p
 	w.piecePos = Coords{0, (w.Width - PieceSize) / 2}
+	w.pieceOrnt = North
 }
 
 func (w *Well) IsOccupiedAt(pt Coords) bool {
@@ -72,6 +73,17 @@ func (w *Well) Fall() {
 	if w.CanFall() {
 		w.piecePos.Row += 1
 	}
+}
+
+func (w *Well) BakeIn() {
+	w.piece.IterateSolidParts(
+		w.pieceOrnt,
+		func (row int, col int) {
+			w.field[w.piecePos.Row + row][w.piecePos.Col + col] = true
+		},
+	)
+
+	w.piece = nil
 }
 
 func (w Well) isFilledAt(pt Coords) bool {
@@ -128,7 +140,8 @@ func (w *Well) WouldCollide(piece *Piece, pos Coords, ornt Orientation) bool {
 			}
 
 		        result = result || w.isFilledAt(Coords{pos.Row + row, pos.Col + col})
-		})
+		},
+	)
 
 	return result
 }

@@ -4,7 +4,6 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
-	"math/rand"
 	"time"
 
 	"golang.org/x/term"
@@ -22,18 +21,15 @@ func main() {
 
 	keys := keystrokes()
 
-	ticker := time.NewTicker(700 * time.Millisecond)
+	ticker := time.NewTicker(100 * time.Millisecond)
 
 	clearTerminal()
 
-	tetris := NewWell(20, 10)
-	randomPiece := Pieces[PieceNames[rand.Intn(len(PieceNames))]]
-	tetris.AddPiece(&randomPiece)
+	tetris := NewTetris()
 
 	termH, termW := termSize()
 	screen := NewScreen(termH - 1, termW)
-
-	field := NewField(&tetris, &screen)
+	gfx := NewField(&tetris.Well, &screen)
 
 mainloop:
 	for {
@@ -41,7 +37,7 @@ mainloop:
 		case <-sig:
 			break mainloop
 		case <-ticker.C:
-			tetris.Fall() // tetris.Tick(), and then inside tetris counts amount of ticks and reacts, so that tetris does not know time and can be simulated/played at any speed
+			tetris.Tick()
 		case key := <-keys:
 			switch key {
 			case 0x03: // Ctrl+C
@@ -61,7 +57,7 @@ mainloop:
 
 		}
 
-		field.Render()
+		gfx.Render()
 
 		resetCursor()
 		print(screen.Printable())

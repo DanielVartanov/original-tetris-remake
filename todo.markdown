@@ -68,15 +68,20 @@
     [V] Filled cells
 
 [.]- Make it a game
-  [.] Bake-in the pieces that can't fall further
-  - Add a new piece when the previous one is baked-in
-  - Snap a line if filled
+  [V] Introduce Tetris
+     [V] It will have count ticks, 7 ticks per fall initiatlly
+     [V] It will add pieces, `main.go` should not call `AddPiece` and
+       should now know `Well` at all, it will have only `Tetris`
+  [V] Bake-in piece when it cannot fall further
+  [V] Add a new piece when the previous one is baked-in
+  [.] Snap a line if filled
   - Collision detection with filled cells
     - When moving sideways
     - When falling
     - When dropping
     - When rotating
   - Keep scores for the snapped lines
+  - Introduce speed and increase it at score threshold
   - Extract game-mechanics `Field` from `Tetris`, it will be
         responsible for: `Fill`, `wouldCollide`, `CanXxx`, `IsFilled`,
         `CanSnap`, `Snap`(notice, it's a passive struct!)
@@ -86,6 +91,7 @@
           package to avoid name clash
 
 - Final similarities to the original
+  - Fix bug: piece does not rotate more than 3-4 times
   - Read screen size on init, draw from the middle
     - Make the graphics output a string of a size of the terminal
   - Build a layer of `game.go` that surrounds the core mechanics
@@ -103,6 +109,10 @@
           core mechanics of Tetris. I guess, `piece.go` is
           self-explanatory and does not require a comment
   - Next piece
+    - Introduce `Graphics` that will render field, next piece, scores
+      etc. Basically, something like `Field` that aggregates Field and
+      other pieces of screen. It will take a `Tetris` (not just a
+      `Well`) as a constructor argument.
   - Score calcs
   - Levels & speeding up
   - Make it react to arrow keys (requires stdin buffer)
@@ -122,6 +132,8 @@
   - Ensure it runs well on Mac and Win
   - Check if usage of "reflect" package is okay, change otherwise
   - Refactor
+    - Well
+      - Convert all methods to references from values `(w Well)`
     - Game
       - Leave only system/terminal issues in `tetris.go`, everything
         related to game shall be in `game.go` or whatever: it will
