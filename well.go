@@ -145,11 +145,11 @@ func (w *Well) canFall() bool {
 }
 
 func (w *Well) canRotateCW() bool {
-	return !w.WouldCollide(w.piece, Coords{w.piecePos.Col, w.piecePos.Row}, w.pieceOrnt.RotateCW())
+	return !w.WouldCollide(w.piece, Coords{w.piecePos.Row, w.piecePos.Col}, w.pieceOrnt.RotateCW())
 }
 
 func (w *Well) canRotateCCW() bool {
-	return !w.WouldCollide(w.piece, Coords{w.piecePos.Col, w.piecePos.Row}, w.pieceOrnt.RotateCCW())
+	return !w.WouldCollide(w.piece, Coords{w.piecePos.Row, w.piecePos.Col}, w.pieceOrnt.RotateCCW())
 }
 
 func (w *Well) WouldCollide(piece *Piece, pos Coords, ornt Orientation) bool {

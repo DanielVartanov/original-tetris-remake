@@ -61,7 +61,7 @@ func TestWell_Fall(t *testing.T) {
 }
 
 func TestWell_Rotate(t *testing.T) {
-	piece := Pieces['T']
+	piece := Pieces['L']
 
 	w := NewWell(4, 4)
 	w.AddPiece(&piece)
@@ -74,10 +74,10 @@ func TestWell_Rotate(t *testing.T) {
 			func() { w.RotateCW() },
 		},
 		film{
-			{"|    |", "| x  |", "|    |", "|  x |", "|    |"},
-			{"| x  |", "| xx |", "|xxx |", "| xx |", "| x  |"},
-			{"|xxx |", "| x  |", "| x  |", "|  x |", "|xxx |"},
-			{"|    |", "|    |", "|    |", "|    |", "|    |"},
+			{"|    |", "| x  |", "|    |", "|    |", "|    |"},
+			{"|  x |", "| x  |", "| xxx|", "| xx |", "|  x |"},
+			{"|xxx |", "| xx |", "| x  |", "|  x |", "|xxx |"},
+			{"|    |", "|    |", "|    |", "|  x |", "|    |"},
 			{"|----|", "|----|", "|----|", "|----|", "|----|"},
 		},
 	)

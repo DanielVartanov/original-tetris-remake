@@ -79,10 +79,12 @@ func (pc Piece) SolidAt(row int, col int, ornt Orientation) bool {
 		row = PieceSize - 1 - row
 	case South:
 		row = PieceSize - 1 - row
+		col = PieceSize - 1 - col
 	case West:
 		buf := col
 		col = row
 		row = buf
+		col = PieceSize - 1 - col
 	}
 
 	return pc[row][col] == '■'

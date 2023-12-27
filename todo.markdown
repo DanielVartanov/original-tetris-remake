@@ -75,8 +75,7 @@
   [V] Bake-in piece when it cannot fall further
   [V] Add a new piece when the previous one is baked-in
   [V] Snap a line if filled
-  [.] Fix bug: sometimes a piece rotates wierdly
-  - Test collision detection with filled cells
+  [.] Test collision detection with filled cells
     - When moving sideways
     - When falling
     - When dropping
