@@ -74,24 +74,18 @@
        should now know `Well` at all, it will have only `Tetris`
   [V] Bake-in piece when it cannot fall further
   [V] Add a new piece when the previous one is baked-in
-  [.] Snap a line if filled
-  - Collision detection with filled cells
+  [V] Snap a line if filled
+  [.] Fix bug: sometimes a piece rotates wierdly
+  - Test collision detection with filled cells
     - When moving sideways
     - When falling
     - When dropping
     - When rotating
   - Keep scores for the snapped lines
+    - Extract score keeping to a separate class not to have to test `Tetris`
   - Introduce speed and increase it at score threshold
-  - Extract game-mechanics `Field` from `Tetris`, it will be
-        responsible for: `Fill`, `wouldCollide`, `CanXxx`, `IsFilled`,
-        `CanSnap`, `Snap`(notice, it's a passive struct!)
-        so that game(Tetris?) would:
-        `if (! CanFall()) { if fld.CanSnap() { AddScore(fld.Snap()) }; NextPiece() }`
-        - Perhaps, graphics indeed will need to be extracted to a
-          package to avoid name clash
 
 - Final similarities to the original
-  - Fix bug: piece does not rotate more than 3-4 times
   - Read screen size on init, draw from the middle
     - Make the graphics output a string of a size of the terminal
   - Build a layer of `game.go` that surrounds the core mechanics

@@ -40,38 +40,41 @@ func (w *Well) IsOccupiedAt(pt Coords) bool {
 }
 
 func (w *Well) MoveRight() {
-	if w.CanMoveRight() {
+	if w.canMoveRight() {
 		w.piecePos.Col += 1
 	}
 }
 
 func (w *Well) MoveLeft() {
-	if w.CanMoveLeft() {
+	if w.canMoveLeft() {
 		w.piecePos.Col -= 1
 	}
 }
 
 func (w *Well) RotateCW() {
-	if w.CanRotateCW() {
+	if w.canRotateCW() {
 		w.pieceOrnt = w.pieceOrnt.RotateCW()
 	}
 }
 
 func (w *Well) RotateCCW() {
-	if w.CanRotateCCW() {
+	if w.canRotateCCW() {
 		w.pieceOrnt = w.pieceOrnt.RotateCCW()
 	}
 }
 
 func (w *Well) Drop() {
-	for w.CanFall() {
+	for w.canFall() {
 		w.Fall()
 	}
 }
 
-func (w *Well) Fall() {
-	if w.CanFall() {
+func (w *Well) Fall() bool {
+	if w.canFall() {
 		w.piecePos.Row += 1
+		return true
+	} else {
+		return false
 	}
 }
 
@@ -84,6 +87,31 @@ func (w *Well) BakeIn() {
 	)
 
 	w.piece = nil
+}
+
+func (w *Well) Snap() bool {
+	for row := 0; row < w.Height; row++ {
+		rowFull := true
+		for col := 0; col < w.Width; col++ {
+			rowFull = rowFull && w.field[row][col]
+		}
+
+		if rowFull {
+			w.snapRow(row)
+			return true
+		}
+	}
+	return false
+}
+
+func (w *Well) snapRow(r int) {
+	for row := r; row > 0; row-- {
+		copy(w.field[row], w.field[row-1])
+	}
+
+	for col := 0; col < w.Width; col++ {
+		w.field[0][col] = false
+	}
 }
 
 func (w Well) isFilledAt(pt Coords) bool {
@@ -104,23 +132,23 @@ func (w Well) isPieceAt(pt Coords) bool {
 	return w.piece.SolidAt(pt.Row - w.piecePos.Row, pt.Col - w.piecePos.Col, w.pieceOrnt)
 }
 
-func (w *Well) CanMoveLeft() bool {
+func (w *Well) canMoveLeft() bool {
 	return !w.WouldCollide(w.piece, Coords{w.piecePos.Row, w.piecePos.Col - 1}, w.pieceOrnt)
 }
 
-func (w *Well) CanMoveRight() bool {
+func (w *Well) canMoveRight() bool {
 	return !w.WouldCollide(w.piece, Coords{w.piecePos.Row, w.piecePos.Col + 1}, w.pieceOrnt)
 }
 
-func (w *Well) CanFall() bool {
+func (w *Well) canFall() bool {
 	return !w.WouldCollide(w.piece, Coords{w.piecePos.Row + 1, w.piecePos.Col}, w.pieceOrnt)
 }
 
-func (w *Well) CanRotateCW() bool {
+func (w *Well) canRotateCW() bool {
 	return !w.WouldCollide(w.piece, Coords{w.piecePos.Col, w.piecePos.Row}, w.pieceOrnt.RotateCW())
 }
 
-func (w *Well) CanRotateCCW() bool {
+func (w *Well) canRotateCCW() bool {
 	return !w.WouldCollide(w.piece, Coords{w.piecePos.Col, w.piecePos.Row}, w.pieceOrnt.RotateCCW())
 }
 

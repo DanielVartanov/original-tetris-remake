@@ -11,6 +11,16 @@ type actions []func()
 
 type film [][]string
 
+func fillWell(w Well, filling snapshot) {
+	for row := 0; row <= len(filling) - 2; row++ {
+		for col := 1; col <= len(filling[row]) - 2; col++ {
+			if filling[row][col] == 'x' {
+				w.field[row][col - 1] = true
+			}
+		}
+	}
+}
+
 func assertSnapshot(t *testing.T, well Well, want snapshot) {
 	t.Helper()
 

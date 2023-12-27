@@ -58,14 +58,17 @@ func (ts *Tetris) addPiece() {
 }
 
 func (ts *Tetris) step() {
-	if ts.Well.CanFall() {
-		ts.Well.Fall()
-	} else {
+	if ! ts.Well.Fall() {
 		ts.endPiece()
 	}
 }
 
 func (ts *Tetris) endPiece() {
 	ts.Well.BakeIn()
+
+	for ts.Well.Snap() {
+		// Keep score here
+	}
+
 	ts.addPiece()
 }
