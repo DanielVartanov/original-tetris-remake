@@ -67,7 +67,7 @@
     [V] Piece drop movement upon `s` keypress
     [V] Filled cells
 
-[.]- Make it a game
+[.] Make it a game
   [V] Introduce Tetris
      [V] It will have count ticks, 7 ticks per fall initiatlly
      [V] It will add pieces, `main.go` should not call `AddPiece` and
@@ -75,13 +75,8 @@
   [V] Bake-in piece when it cannot fall further
   [V] Add a new piece when the previous one is baked-in
   [V] Snap a line if filled
-  [.] Test collision detection with filled cells
-    - When moving sideways
-    - When falling
-    - When dropping
-    - When rotating
-  - Keep scores for the snapped lines
-    - Extract score keeping to a separate class not to have to test `Tetris`
+  [.] Keep scores for the snapped lines
+    - Find out how scores were calculated back in the day
   - Introduce speed and increase it at score threshold
 
 - Final similarities to the original
